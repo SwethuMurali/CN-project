@@ -1,0 +1,19 @@
+BEGIN{
+ receive=0
+ drop=0
+ total=0
+ ratio=0
+ }{
+ if($1=="r")
+ {
+ receive=receive+1;
+ }
+ if($1=="d")
+ {
+ drop=drop+1;
+ }}
+ END{
+ total=receive+drop;
+ ratio=(receive/total)*100;
+ printf("\nPacket delivery Ratio %f\n",ratio);
+ }
