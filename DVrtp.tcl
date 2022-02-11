@@ -9,8 +9,8 @@ $ns trace-all $tr
 #Open the nam trace file
 set nf [open rip.nam w]
 $ns namtrace-all $nf
-set ft [open "ripthroughput" "w"]
-set fb [open "ripbandwidth" "w"]
+set ft [open "dvthroughput" "w"]
+set fb [open "dvbandwidth" "w"]
 #Create the nodes
 for {set i 0} {$i < 11} {incr i} {
  set n($i) [$ns node]
@@ -28,18 +28,6 @@ $n(8) color green
 $n(9) color green
 $n(10) color green
 
-#Assigning address to the nodes
-#$n(0) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f10f"
-#$n(1) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f110"
-#$n(2) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f111"
-#$n(3) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f112"
-#$n(4) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f113"
-#$n(5) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f114"
-#$n(6) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f115"
-#$n(7) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f116"
-#$n(8) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f117"
-#$n(9) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f118"
-#$n(10) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f119"
 
 #Create link between the nodes
 $ns duplex-link $n(0) $n(1) 2Mb 15ms DropTail
@@ -84,31 +72,16 @@ $ns flush-trace
 close $nf
 close $ft
 close $fb
-exec xgraph ripbandwidth &
-exec xgraph ripthroughput &
+exec xgraph dvbandwidth &
+exec xgraph dvthroughput &
 puts "running nam..."
-exec nam ripi.nam &
+exec nam rip.nam &
 exit 0
 }
 
 
 
 
-proc next_ip {ip} {
-for {set k 0} {$k < 11} {incr k} {
-   set parts [split $ip :]
-
-   set last_part 0x[lindex $parts end]
-   set next [format %x [expr {$last_part + $k}]]
-   lset parts end $next
-   set next_ipv6 [join $parts ":"]
-   global n
-   $n($k) addr "$next_ipv6"
-   puts "Address of node($k) is $next_ipv6"
-}
-}
-
-next_ip fe80:0000:0000:0000:0204:61ff:fe9d:f10f
 
 
 
