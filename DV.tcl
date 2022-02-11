@@ -48,18 +48,7 @@ $n(19) color green
 
 
 
-#Assigning address to the nodes
-#$n(0) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f10f"
-#$n(1) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f110"
-#$n(2) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f111"
-#$n(3) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f112"
-#$n(4) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f113"
-#$n(5) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f114"
-#$n(6) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f115"
-#$n(7) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f116"
-#$n(8) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f117"
-#$n(9) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f118"
-#$n(10) addr "fe80:0000:0000:0000:0204:61ff:fe9d:f119"
+
 
 #Create link between the nodes
 $ns duplex-link $n(0) $n(1) 20Mb 10ms DropTail
@@ -205,21 +194,7 @@ $ns at [expr $now+$time] "record"
 
 
 
-proc next_ip {ip} {
-for {set k 0} {$k < 20} {incr k} {
-   set parts [split $ip :]
 
-   set last_part 0x[lindex $parts end]
-   set next [format %x [expr {$last_part + $k}]]
-   lset parts end $next
-   set next_ipv6 [join $parts ":"]
-   global n
-   $n($k) addr "$next_ipv6"
-   puts "Address of node($k) is $next_ipv6"
-}
-}
-
-next_ip fe80:0000:0000:0000:0204:61ff:fe9d:f10f
 
 $ns at 0.55 "record"
 $ns at 0.5 "$n(0) color \"red\""
